@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Analysis Result | Project 136</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <main class="container">
+    <a class="back" href="/">← Analyze another file</a>
+    <section class="hero compact">
+      <p class="eyebrow">CODE ANALYSIS REPORT</p>
+      <h1>{{ prediction.risk_level }} Risk</h1>
+      {% if prediction.probability is not none %}
+      <p>Model-estimated defect probability: <strong>{{ '%.1f'|format(prediction.probability * 100) }}%</strong></p>
+      {% endif %}
+    </section>
+
+    <section class="metrics">
+      {% for key, value in metrics.items() %}
+      <div class="metric"><span>{{ key.replace('_',' ')|title }}</span><strong>{{ value }}</strong></div>
+      {% endfor %}
+    </section>
+
+    <section class="card">
+      <h2>Review suggestions</h2>
+      <ul>{% for item in suggestions %}<li>{{ item }}</li>{% endfor %}</ul>
+    </section>
+
+    <section class="card">
+      <h2>Analyzed code</h2>
+      <pre>{{ code }}</pre>
+    </section>
+
+    <p class="note">This result is a review-support signal, not proof that a bug exists.</p>
+  </main>
+</body>
+</html>
