@@ -1,0 +1,4 @@
+model,accuracy,precision,recall,f1_score
+Random Forest,1.0,1.0,1.0,1.0
+Decision Tree,1.0,1.0,1.0,1.0
+Logistic Regression,1.0,1.0,1.0,1.0

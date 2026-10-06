@@ -1,0 +1,48 @@
+{
+    "best_model": "Random Forest",
+    "features": [
+        "loc",
+        "functions",
+        "loops",
+        "conditionals",
+        "complexity",
+        "nesting"
+    ],
+    "best_metrics": {
+        "model": "Random Forest",
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+    },
+    "models_compared": [
+        "Random Forest",
+        "Decision Tree",
+        "Logistic Regression"
+    ],
+    "all_results": [
+        {
+            "model": "Random Forest",
+            "accuracy": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1_score": 1.0
+        },
+        {
+            "model": "Decision Tree",
+            "accuracy": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1_score": 1.0
+        },
+        {
+            "model": "Logistic Regression",
+            "accuracy": 1.0,
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1_score": 1.0
+        }
+    ],
+    "training_samples": 6,
+    "testing_samples": 2
+}

@@ -1,39 +1,904 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Analysis Result | Project 136</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Analysis Report | CodeRisk Analyzer
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
 </head>
+
+
 <body>
-  <main class="container">
-    <a class="back" href="/">← Analyze another file</a>
-    <section class="hero compact">
-      <p class="eyebrow">CODE ANALYSIS REPORT</p>
-      <h1>{{ prediction.risk_level }} Risk</h1>
-      {% if prediction.probability is not none %}
-      <p>Model-estimated defect probability: <strong>{{ '%.1f'|format(prediction.probability * 100) }}%</strong></p>
-      {% endif %}
-    </section>
 
-    <section class="metrics">
-      {% for key, value in metrics.items() %}
-      <div class="metric"><span>{{ key.replace('_',' ')|title }}</span><strong>{{ value }}</strong></div>
-      {% endfor %}
-    </section>
+<div class="app-shell">
 
-    <section class="card">
-      <h2>Review suggestions</h2>
-      <ul>{% for item in suggestions %}<li>{{ item }}</li>{% endfor %}</ul>
-    </section>
+    <!-- ========================= -->
+    <!-- NAVBAR                    -->
+    <!-- ========================= -->
 
-    <section class="card">
-      <h2>Analyzed code</h2>
-      <pre>{{ code }}</pre>
-    </section>
+    <header class="navbar">
 
-    <p class="note">This result is a review-support signal, not proof that a bug exists.</p>
-  </main>
+        <div class="brand">
+
+            <div class="brand-icon">
+                CR
+            </div>
+
+            <div>
+                <h1>
+                    CodeRisk Analyzer
+                </h1>
+
+                <p>
+                    Intelligent Software Quality Analysis
+                </p>
+            </div>
+
+        </div>
+
+
+        <a
+            href="/"
+            class="secondary-button"
+        >
+            ← New Analysis
+        </a>
+
+    </header>
+
+
+    <!-- ========================= -->
+    <!-- MAIN REPORT               -->
+    <!-- ========================= -->
+
+    <main class="report-container">
+
+
+        <!-- REPORT HEADER -->
+
+        <div class="report-header">
+
+            <div>
+
+                <div class="eyebrow">
+                    ANALYSIS COMPLETE
+                </div>
+
+                <h2>
+                    Code Analysis Report
+                </h2>
+
+                <p>
+                    ML-assisted software quality and defect-risk assessment.
+                </p>
+
+            </div>
+
+
+            <div class="report-status">
+                <span class="status-light"></span>
+                Analysis Successful
+            </div>
+
+        </div>
+
+
+
+        <!-- ========================= -->
+        <!-- RISK OVERVIEW             -->
+        <!-- ========================= -->
+
+        <section class="risk-overview">
+
+
+            <div class="
+                risk-summary
+
+                {% if prediction.risk_level == 'High' %}
+                    risk-high
+                {% elif prediction.risk_level == 'Medium' %}
+                    risk-medium
+                {% else %}
+                    risk-low
+                {% endif %}
+            ">
+
+
+                <div class="risk-top">
+
+                    <div>
+
+                        <span class="small-label">
+                            DEFECT RISK
+                        </span>
+
+                        <h3>
+                            {{ prediction.risk_level }} Risk
+                        </h3>
+
+                    </div>
+
+
+                    <div class="risk-indicator">
+                        {{ prediction.risk_level[0] }}
+                    </div>
+
+                </div>
+
+
+
+                <div class="probability-section">
+
+                    <div class="probability-number">
+                        {{ prediction.probability }}%
+                    </div>
+
+                    <p>
+                        Model-estimated defect probability
+                    </p>
+
+                </div>
+
+
+
+                <div class="risk-progress">
+
+                    <div
+                        class="risk-progress-fill"
+                        style="width: {{ prediction.probability }}%;"
+                    ></div>
+
+                </div>
+
+
+                <div class="risk-scale">
+
+                    <span>Low</span>
+                    <span>Medium</span>
+                    <span>High</span>
+
+                </div>
+
+
+            </div>
+
+
+
+            <div class="model-info-card">
+
+                <span class="small-label">
+                    ANALYSIS ENGINE
+                </span>
+
+                <h3>
+                    ML-Assisted Review
+                </h3>
+
+                <p>
+                    CodeRisk Analyzer evaluates measurable source-code
+                    characteristics and converts them into a review-priority
+                    signal using a trained machine learning model.
+                </p>
+
+
+                <div class="engine-tags">
+
+                    <span>
+                        Static Analysis
+                    </span>
+
+                    <span>
+                        ML Prediction
+                    </span>
+
+                    <span>
+                        Risk Classification
+                    </span>
+
+                    <span>
+                        Review Guidance
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ========================= -->
+        <!-- MODEL INTELLIGENCE        -->
+        <!-- ========================= -->
+
+        <section class="report-section">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="small-label">
+                        MODEL INTELLIGENCE
+                    </span>
+
+                    <h3>
+                        Machine Learning Engine
+                    </h3>
+
+                </div>
+
+
+                <span class="model-badge">
+                    {{ model_metadata.best_model }}
+                </span>
+
+            </div>
+
+
+
+            <div class="model-grid">
+
+
+                <div class="model-stat">
+
+                    <span>
+                        Accuracy
+                    </span>
+
+                    <strong>
+                        {{
+                            (
+                                model_metadata.best_metrics.get(
+                                    "accuracy",
+                                    0
+                                ) * 100
+                            ) | round(1)
+                        }}%
+                    </strong>
+
+                    <small>
+                        Overall correct predictions
+                    </small>
+
+                </div>
+
+
+
+                <div class="model-stat">
+
+                    <span>
+                        Precision
+                    </span>
+
+                    <strong>
+                        {{
+                            (
+                                model_metadata.best_metrics.get(
+                                    "precision",
+                                    0
+                                ) * 100
+                            ) | round(1)
+                        }}%
+                    </strong>
+
+                    <small>
+                        Positive prediction reliability
+                    </small>
+
+                </div>
+
+
+
+                <div class="model-stat">
+
+                    <span>
+                        Recall
+                    </span>
+
+                    <strong>
+                        {{
+                            (
+                                model_metadata.best_metrics.get(
+                                    "recall",
+                                    0
+                                ) * 100
+                            ) | round(1)
+                        }}%
+                    </strong>
+
+                    <small>
+                        Defect-prone sample detection
+                    </small>
+
+                </div>
+
+
+
+                <div class="model-stat">
+
+                    <span>
+                        F1 Score
+                    </span>
+
+                    <strong>
+                        {{
+                            (
+                                model_metadata.best_metrics.get(
+                                    "f1_score",
+                                    0
+                                ) * 100
+                            ) | round(1)
+                        }}%
+                    </strong>
+
+                    <small>
+                        Precision-recall balance
+                    </small>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="model-details">
+
+
+                <div>
+
+                    <span>
+                        Best Model
+                    </span>
+
+                    <p class="model-detail-value">
+                        {{ model_metadata.best_model }}
+                    </p>
+
+                </div>
+
+
+
+                <div>
+
+                    <span>
+                        Models Compared
+                    </span>
+
+                    <p>
+                        {{
+                            model_metadata.models_compared
+                            | join(" • ")
+                        }}
+                    </p>
+
+                </div>
+
+
+
+                <div>
+
+                    <span>
+                        ML Input Features
+                    </span>
+
+                    <p>
+                        {{
+                            model_metadata.features
+                            | join(" • ")
+                        }}
+                    </p>
+
+                </div>
+
+
+
+                <div>
+
+                    <span>
+                        Training Setup
+                    </span>
+
+                    <p>
+                        Training samples:
+                        {{ model_metadata.get("training_samples", 0) }}
+
+                        &nbsp;•&nbsp;
+
+                        Testing samples:
+                        {{ model_metadata.get("testing_samples", 0) }}
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="academic-warning">
+
+                <div class="warning-symbol">
+                    !
+                </div>
+
+                <p>
+                    Current model statistics depend on the available training
+                    dataset. They should be interpreted as experimental
+                    evaluation results rather than guaranteed real-world
+                    performance.
+                </p>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ========================= -->
+        <!-- SOFTWARE METRICS          -->
+        <!-- ========================= -->
+
+        <section class="report-section">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="small-label">
+                        CODE STRUCTURE
+                    </span>
+
+                    <h3>
+                        Software Quality Metrics
+                    </h3>
+
+                </div>
+
+
+                <span class="section-count">
+                    14 indicators
+                </span>
+
+            </div>
+
+
+
+            <div class="metrics-dashboard">
+
+
+                <div class="metric-box highlight">
+
+                    <span>
+                        Lines of Code
+                    </span>
+
+                    <strong>
+                        {{ metrics.loc }}
+                    </strong>
+
+                    <small>
+                        Executable code size
+                    </small>
+
+                </div>
+
+
+
+                <div class="metric-box">
+
+                    <span>
+                        Functions
+                    </span>
+
+                    <strong>
+                        {{ metrics.functions }}
+                    </strong>
+
+                    <small>
+                        Function definitions
+                    </small>
+
+                </div>
+
+
+
+                <div class="metric-box">
+
+                    <span>
+                        Loops
+                    </span>
+
+                    <strong>
+                        {{ metrics.loops }}
+                    </strong>
+
+                    <small>
+                        Iterative structures
+                    </small>
+
+                </div>
+
+
+
+                <div class="metric-box">
+
+                    <span>
+                        Conditionals
+                    </span>
+
+                    <strong>
+                        {{ metrics.conditionals }}
+                    </strong>
+
+                    <small>
+                        Decision points
+                    </small>
+
+                </div>
+
+
+
+                <div class="metric-box highlight">
+
+                    <span>
+                        Complexity
+                    </span>
+
+                    <strong>
+                        {{ metrics.complexity }}
+                    </strong>
+
+                    <small>
+                        Cyclomatic indicator
+                    </small>
+
+                </div>
+
+
+
+                <div class="metric-box">
+
+                    <span>
+                        Max Nesting
+                    </span>
+
+                    <strong>
+                        {{ metrics.nesting }}
+                    </strong>
+
+                    <small>
+                        Deepest logic level
+                    </small>
+
+                </div>
+
+
+
+                <div class="metric-box">
+
+                    <span>
+                        Classes
+                    </span>
+
+                    <strong>
+                        {{ metrics.classes }}
+                    </strong>
+
+                    <small>
+                        Class definitions
+                    </small>
+
+                </div>
+
+
+
+                <div class="metric-box">
+
+                    <span>
+                        Imports
+                    </span>
+
+                    <strong>
+                        {{ metrics.imports }}
+                    </strong>
+
+                    <small>
+                        Import statements
+                    </small>
+
+                </div>
+
+
+
+                <div class="metric-box">
+
+                    <span>
+                        Exception Handlers
+                    </span>
+
+                    <strong>
+                        {{ metrics.exception_handlers }}
+                    </strong>
+
+                    <small>
+                        Error-handling blocks
+                    </small>
+
+                </div>
+
+
+
+                <div class="metric-box">
+
+                    <span>
+                        Comment Lines
+                    </span>
+
+                    <strong>
+                        {{ metrics.comment_lines }}
+                    </strong>
+
+                    <small>
+                        Documentation lines
+                    </small>
+
+                </div>
+
+
+
+                <div class="metric-box">
+
+                    <span>
+                        Comment Ratio
+                    </span>
+
+                    <strong>
+                        {{ metrics.comment_ratio }}%
+                    </strong>
+
+                    <small>
+                        Documentation coverage
+                    </small>
+
+                </div>
+
+
+
+                <div class="metric-box">
+
+                    <span>
+                        Max Function Length
+                    </span>
+
+                    <strong>
+                        {{ metrics.max_function_length }}
+                    </strong>
+
+                    <small>
+                        Largest function size
+                    </small>
+
+                </div>
+
+
+
+                <div class="metric-box">
+
+                    <span>
+                        Avg Function Length
+                    </span>
+
+                    <strong>
+                        {{ metrics.avg_function_length }}
+                    </strong>
+
+                    <small>
+                        Average function size
+                    </small>
+
+                </div>
+
+
+
+                <div class="metric-box">
+
+                    <span>
+                        Long Functions
+                    </span>
+
+                    <strong>
+                        {{ metrics.long_functions }}
+                    </strong>
+
+                    <small>
+                        Functions ≥ 30 lines
+                    </small>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ========================= -->
+        <!-- RECOMMENDATIONS           -->
+        <!-- ========================= -->
+
+        <section class="report-section">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="small-label">
+                        REVIEW ASSISTANCE
+                    </span>
+
+                    <h3>
+                        Developer Recommendations
+                    </h3>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="recommendation-card">
+
+                {% for suggestion in suggestions %}
+
+                <div class="recommendation-item">
+
+                    <div class="recommendation-icon">
+                        ✓
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Review Insight
+                        </strong>
+
+                        <p>
+                            {{ suggestion }}
+                        </p>
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ========================= -->
+        <!-- SOURCE CODE               -->
+        <!-- ========================= -->
+
+        <section class="report-section">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="small-label">
+                        SOURCE INPUT
+                    </span>
+
+                    <h3>
+                        Analyzed Source Code
+                    </h3>
+
+                </div>
+
+                <span class="python-badge">
+                    Python
+                </span>
+
+            </div>
+
+
+
+            <div class="code-window">
+
+                <div class="code-window-header">
+
+                    <div class="window-buttons">
+
+                        <span></span>
+                        <span></span>
+                        <span></span>
+
+                    </div>
+
+
+                    <span>
+                        source.py
+                    </span>
+
+                </div>
+
+
+                <pre><code>{{ code }}</code></pre>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ========================= -->
+        <!-- RESPONSIBLE AI NOTE       -->
+        <!-- ========================= -->
+
+        <div class="report-note">
+
+            <div class="note-icon">
+                i
+            </div>
+
+
+            <div>
+
+                <strong>
+                    Responsible Interpretation
+                </strong>
+
+                <p>
+                    CodeRisk Analyzer provides a software-review support
+                    signal based on measurable source-code characteristics
+                    and learned ML patterns.
+
+                    A predicted risk level does not prove that a specific
+                    software defect exists and should not replace developer
+                    judgment, testing, debugging or professional code review.
+                </p>
+
+            </div>
+
+        </div>
+
+
+    </main>
+
+
+
+    <!-- ========================= -->
+    <!-- FOOTER                    -->
+    <!-- ========================= -->
+
+    <footer class="footer">
+
+        <span>
+            CodeRisk Analyzer
+        </span>
+
+        <span>
+            ML-Assisted Software Quality Analysis
+        </span>
+
+    </footer>
+
+
+</div>
+
 </body>
+
 </html>

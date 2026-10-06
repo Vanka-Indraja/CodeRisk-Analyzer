@@ -1,34 +1,246 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Project 136 | Automated Code Review</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CodeRisk Analyzer</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
 </head>
+
 <body>
-  <main class="container">
-    <section class="hero">
-      <p class="eyebrow">PROJECT 136</p>
-      <h1>Automated Code Review & Defect Prediction</h1>
-      <p>Upload or paste Python source code to extract software metrics and estimate defect risk using a trained ML classifier.</p>
-    </section>
 
-    {% if error %}<div class="alert">{{ error }}</div>{% endif %}
+<div class="app-shell">
 
-    <form method="post" enctype="multipart/form-data" class="card">
-      <label for="source_code">Paste Python source code</label>
-      <textarea id="source_code" name="source_code" rows="18" placeholder="def example(x):\n    if x > 0:\n        return x\n    return 0"></textarea>
+    <header class="navbar">
 
-      <div class="or">OR</div>
+        <div class="brand">
 
-      <label for="source_file">Upload .py file</label>
-      <input id="source_file" name="source_file" type="file" accept=".py,text/x-python">
+            <div class="brand-icon">
+                CR
+            </div>
 
-      <button type="submit">Analyze Code</button>
-    </form>
+            <div>
+                <h1>CodeRisk Analyzer</h1>
 
-    <p class="note">Prediction supports review prioritization; it does not prove that a specific bug exists.</p>
-  </main>
+                <p>
+                    Intelligent Software Quality Analysis
+                </p>
+            </div>
+
+        </div>
+
+        <div class="nav-badge">
+            ML Powered
+        </div>
+
+    </header>
+
+
+    <main class="hero-layout">
+
+        <section class="hero-copy">
+
+            <div class="eyebrow">
+                MACHINE LEARNING • SOFTWARE QUALITY
+            </div>
+
+            <h2>
+                Detect risky code
+                <span>before it becomes a problem.</span>
+            </h2>
+
+            <p class="hero-description">
+                Analyze Python source code using measurable software
+                metrics and machine learning to estimate defect risk,
+                understand code quality and prioritize manual review.
+            </p>
+
+
+            <div class="feature-row">
+
+                <div class="feature">
+                    <div class="feature-icon">01</div>
+
+                    <div>
+                        <strong>Static Analysis</strong>
+                        <span>
+                            Extract structural code metrics
+                        </span>
+                    </div>
+                </div>
+
+                <div class="feature">
+                    <div class="feature-icon">02</div>
+
+                    <div>
+                        <strong>ML Risk Prediction</strong>
+                        <span>
+                            Estimate defect probability
+                        </span>
+                    </div>
+                </div>
+
+                <div class="feature">
+                    <div class="feature-icon">03</div>
+
+                    <div>
+                        <strong>Review Guidance</strong>
+                        <span>
+                            Get developer-oriented suggestions
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <section class="analysis-panel">
+
+            <div class="panel-heading">
+
+                <div>
+                    <span class="panel-kicker">
+                        NEW ANALYSIS
+                    </span>
+
+                    <h3>
+                        Analyze Source Code
+                    </h3>
+                </div>
+
+                <div class="status-dot">
+                    Ready
+                </div>
+
+            </div>
+
+
+            {% if error %}
+
+            <div class="alert">
+                {{ error }}
+            </div>
+
+            {% endif %}
+
+
+            <form
+                method="POST"
+                enctype="multipart/form-data"
+            >
+
+                <div class="field-group">
+
+                    <label>
+                        Upload Python File
+                    </label>
+
+                    <div class="upload-box">
+
+                        <div class="upload-icon">
+                            ↑
+                        </div>
+
+                        <div>
+                            <strong>
+                                Choose a .py file
+                            </strong>
+
+                            <p>
+                                Upload source code for analysis
+                            </p>
+                        </div>
+
+                        <input
+                            type="file"
+                            name="source_file"
+                            accept=".py"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="separator">
+
+                    <span>
+                        OR PASTE CODE
+                    </span>
+
+                </div>
+
+
+                <div class="field-group">
+
+                    <label for="source_code">
+                        Python Source Code
+                    </label>
+
+                    <textarea
+                        id="source_code"
+                        name="source_code"
+                        placeholder="def calculate_total(items):
+    total = 0
+
+    for item in items:
+        if item > 0:
+            total += item
+
+    return total"
+                    ></textarea>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="primary-button"
+                >
+
+                    <span>
+                        Analyze Code
+                    </span>
+
+                    <span class="button-arrow">
+                        →
+                    </span>
+
+                </button>
+
+            </form>
+
+
+            <div class="privacy-note">
+                <span>●</span>
+                Your source code is analyzed locally by the application.
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <footer class="footer">
+
+        <span>
+            CodeRisk Analyzer
+        </span>
+
+        <span>
+            Machine Learning Based Software Quality Analysis
+        </span>
+
+    </footer>
+
+</div>
+
 </body>
 </html>
